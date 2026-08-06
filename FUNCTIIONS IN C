@@ -1,0 +1,177 @@
+
+
+include <stdio.h>
+
+/* 
+ * Helper function that compares two integers 
+ * and returns the greater value.
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int lexicographic_sort(const char* a, const char* b) {
+    return strcmp(a, b);
+}
+
+int lexicographic_sort_reverse(const char* a, const char* b) {
+    return strcmp(b, a);
+}
+
+int sort_by_number_of_distinct_characters(const char* a, const char* b) {
+    int count_a = 0, count_b = 0;
+    int hash_a[26] = {0}, hash_b[26] = {0};
+    
+    for (int i = 0; a[i] != '\0'; i++) {
+        if (hash_a[a[i] - 'a'] == 0) {
+            hash_a[a[i] - 'a'] = 1;
+            count_a++;
+        }
+    }
+    for (int i = 0; b[i] != '\0'; i++) {
+        if (hash_b[b[i] - 'a'] == 0) {
+            hash_b[b[i] - 'a'] = 1;
+            count_b++;
+        }
+    }
+    
+    if (count_a != count_b) {
+        return count_a - count_b;
+    }
+    return strcmp(a, b);
+}
+
+int sort_by_length(const char* a, const char* b) {
+    int len_a = strlen(a);
+    int len_b = strlen(b);
+    if (len_a != len_b) {
+        return len_a - len_b;
+    }
+    return strcmp(a, b);
+}
+
+void string_sort(const char** arr, const int cnt, int (*cmp_func)(const char* a, const char* b)) {
+    for (int i = 0; i < cnt - 1; i++) {
+        for (int j = 0; j < cnt - i - 1; j++) {
+            if (cmp_func(arr[j], arr[j + 1]) > 0) {
+                const char* temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int lexicographic_sort(const char* a, const char* b) {
+    return strcmp(a, b);
+}
+
+int lexicographic_sort_reverse(const char* a, const char* b) {
+    return strcmp(b, a);
+}
+
+int sort_by_number_of_distinct_characters(const char* a, const char* b) {
+    int count_a = 0, count_b = 0;
+    int hash_a[26] = {0}, hash_b[26] = {0};
+    
+    for (int i = 0; a[i] != '\0'; i++) {
+        if (hash_a[a[i] - 'a'] == 0) {
+            hash_a[a[i] - 'a'] = 1;
+            count_a++;
+        }
+    }
+    for (int i = 0; b[i] != '\0'; i++) {
+        if (hash_b[b[i] - 'a'] == 0) {
+            hash_b[b[i] - 'a'] = 1;
+            count_b++;
+        }
+    }
+    
+    if (count_a != count_b) {
+        return count_a - count_b;
+    }
+    return strcmp(a, b);
+}
+
+int sort_by_length(const char* a, const char* b) {
+    int len_a = strlen(a);
+    int len_b = strlen(b);
+    if (len_a != len_b) {
+        return len_a - len_b;
+    }
+    return strcmp(a, b);
+}
+
+void string_sort(const char** arr, const int cnt, int (*cmp_func)(const char* a, const char* b)) {
+    for (int i = 0; i < cnt - 1; i++) {
+        for (int j = 0; j < cnt - i - 1; j++) {
+            if (cmp_func(arr[j], arr[j + 1]) > 0) {
+                const char* temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int lexicographic_sort(const char* a, const char* b) {
+    return strcmp(a, b);
+}
+
+int lexicographic_sort_reverse(const char* a, const char* b) {
+    return strcmp(b, a);
+}
+
+int sort_by_number_of_distinct_characters(const char* a, const char* b) {
+    int count_a = 0, count_b = 0;
+    int hash_a[26] = {0}, hash_b[26] = {0};
+    
+    for (int i = 0; a[i] != '\0'; i++) {
+        if (hash_a[a[i] - 'a'] == 0) {
+            hash_a[a[i] - 'a'] = 1;
+            count_a++;
+        }
+    }
+    for (int i = 0; b[i] != '\0'; i++) {
+        if (hash_b[b[i] - 'a'] == 0) {
+            hash_b[b[i] - 'a'] = 1;
+            count_b++;
+        }
+    }
+    
+    if (count_a != count_b) {
+        return count_a - count_b;
+    }
+    return strcmp(a, b);
+}
+
+int sort_by_length(const char* a, const char* b) {
+    int len_a = strlen(a);
+    int len_b = strlen(b);
+    if (len_a != len_b) {
+        return len_a - len_b;
+    }
+    return strcmp(a, b);
+}
+
+void string_sort(const char** arr, const int cnt, int (*cmp_func)(const char* a, const char* b)) {
+    for (int i = 0; i < cnt - 1; i++) {
+        for (int j = 0; j < cnt - i - 1; j++) {
+            if (cmp_func(arr[j], arr[j + 1]) > 0) {
+                const char* temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+
+
