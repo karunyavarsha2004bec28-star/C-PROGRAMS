@@ -1,0 +1,33 @@
+include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+
+int main() {
+    int a, b;
+    
+    // Read the start (a) and end (b) values of the interval
+    if (scanf("%d\n%d", &a, &b) != 2) return 0;
+    
+    // String array containing lowercase representations from index 0 to 9
+    // Index 0 is a placeholder since the problem evaluates 1 to 9
+    char* numbers[] = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+
+    // Iterate through each integer in the interval [a, b] inclusive
+    for (int i = a; i <= b; i++) {
+        if (i >= 1 && i <= 9) {
+            // Print the lowercase English representation
+            printf("%s\n", numbers[i]);
+        } else if (i > 9) {
+            // Check if the number is even or odd
+            if (i % 2 == 0) {
+                printf("even\n");
+            } else {
+                printf("odd\n");
+            }
+        }
+    }
+
+    return 0;
+}
+
