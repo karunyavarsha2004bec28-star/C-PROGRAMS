@@ -1,0 +1,115 @@
+include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define MIN_ELEMENT 1
+#define MAX_ELEMENT 1000000
+int sum(int count, ...) {
+    va_list args;
+    va_start(args, count);
+    
+    int total = 0;
+    for (int i = 0; i < count; i++) {
+        total += va_arg(args, int);
+    }
+    
+    va_end(args);
+    return total;
+}
+
+int min(int count, ...) {
+    va_list args;
+    va_start(args, count);
+    
+    // MAX_ELEMENT is a macro provided by HackerRank's hidden boilerplate code
+    int minimum = MAX_ELEMENT; 
+    
+    for (int i = 0; i < count; i++) {
+        int current = va_arg(args, int);
+        if (current < minimum) {
+            minimum = current;
+        }
+    }
+    
+    va_end(args);
+    return minimum;
+}
+
+int max(int count, ...) {
+    va_list args;
+    va_start(args, count);
+    
+    // MIN_ELEMENT is a macro provided by HackerRank's hidden boilerplate code
+    int maximum = MIN_ELEMENT; 
+    
+    for (int i = 0; i < count; i++) {
+        int current = va_arg(args, int);
+        if (current > maximum) {
+            maximum = current;
+        }
+    }
+    
+    va_end(args);
+    return maximum;
+}
+
+    for (int i = 0; i < count; i++) {
+        // Access each argument sequentially
+        total += va_arg(args, int);
+    }
+    
+    // Clean up memory reserved for args
+    va_end(args);
+    
+    return total;
+}
+
+int min(int count, ...) {
+    va_list args;
+    va_start(args, count);
+    
+    // Set initial minimum to the highest possible integer value
+    int minimum = INT_MAX;
+    
+    for (int i = 0; i < count; i++) {
+        int current = va_arg(args, int);
+        if (current < minimum) {
+            minimum = current;
+        }
+    }
+    
+    va_end(args);
+    return minimum;
+}
+
+int max(int count, ...) {
+    va_list args;
+    va_start(args, count);
+    
+    // Set initial maximum to the lowest possible integer value
+    int maximum = INT_MIN;
+    
+    for (int i = 0; i < count; i++) {
+        int current = va_arg(args, int);
+        if (current > maximum) {
+            maximum = current;
+        }
+    }
+    
+    va_end(args);
+    return maximum;
+}
+
+
+}
+
+int min(int count,...) {
+
+}
+
+int max(int count,...) {
+
+}
+
+int test_implementations_by_sending_three_elements() {
