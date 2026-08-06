@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdlib.h> // Required for the abs() function
+
+void update(int *a, int *b) {
+    // 1. Store the original values pointed to by a and b
+    int original_a = *a;
+    int original_b = *b;
+    
+    // 2. Set the value at address 'a' to their sum
+    *a = original_a + original_b;
+    
+    // 3. Set the value at address 'b' to their absolute difference
+    *b = abs(original_a - original_b);
+}
+
+int main() {
+    int a, b;
+    int *pa = &a, *pb = &b;
+    
+    // Read the inputs from stdin
+    if (scanf("%d %d", &a, &b) == 2) {
+        // Pass the memory pointers to the update function
+        update(pa, pb);
+        
+        // The original variables are now modified in place
+        printf("%d\n%d\n", a, b);
+    }
+    
+    return 0;
+}
