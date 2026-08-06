@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define SIZE 10
+#define EMPTY -1
+#define DELETED -2
+
+typedef struct {
+    int key;
+    int value;
+} Item;
+
+Item* hashArray[SIZE];
+
+// Simple modulo hash function
+int hashFunction(int key) {
+    return key % SIZE;
+}
+
+// Insert an element into the table
+void insert(int key, int value) {
+    Item* item = (Item*)malloc(sizeof(Item));
+    item->key = key;
+    item->value = value;
+
+    int hashIndex = hashFunction(key);
+
+    // Linear Probing to find an empty or deleted cell
+    while (hashArray[hashIndex] != NULL && hashArray[hashIndex]->key != EMPTY && hashArray[hashIndex]->key != DELETED) {
+        hashIndex = (hashIndex + 1) % SIZE; // Move to next cell
+    }
+
+    hashArray[hashIndex] = item;
+}
+
+// Search for an item using its key
+int search(int key) {
+    int hashIndex = hashFunction(key);
+    int startPos = hashIndex;
+
+    while (hashArray[hashIndex] != NULL) {
+        if (hashArray[hashIndex]->key == key) {
+            return hashArray[hashIndex]->value;
+        }
+        hashIndex = (hashIndex + 1) % SIZE;
+        
+        // Wrapped around completely without finding the key
+        if (hashIndex == startPos) {
+            break;
+        }
+    }
+    return -1; 
+}
+
+// Print the table mapping
+void display() {
+    for (int i = 0; i < SIZE; i++) {
+        if (hashArray[i] != NULL && hashArray[i]->key != EMPTY && hashArray[i]->key != DELETED) {
+            printf(" Index [%d]: Key %d, Value %d\n", i, hashArray[i]->key, hashArray[i]->value);
+        } else {
+            printf(" Index [%d]: Empty\n", i);
+        }
+    }
+}
+
+int main() {
+    // Initialize elements as empty
+    for(int i = 0; i < SIZE; i++) {
+        hashArray[i] = NULL;
+    }
+
+    insert(10, 100);
+    insert(20, 200); // Index 0 collides with key 10; probes to index 1
+    insert(42, 420);
+    insert(15, 150);
+
+    printf("--- Hash Table Contents ---\n");
+    display();
+
+    int lookupKey = 20;
+    int res = search(lookupKey);
+    if(res != -1) printf("\nKey %d found with Value: %d\n", lookupKey, res);
+    else printf("\nKey %d not found\n", lookupKey);
+
+    return 0;
+}
