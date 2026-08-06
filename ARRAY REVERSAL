@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int num, i;
+    
+    // 1. Read the size of the array
+    if (scanf("%d", &num) != 1) return 0;
+    
+    // 2. Allocate memory for the array dynamically
+    int *arr = (int*)malloc(num * sizeof(int));
+    
+    // 3. Read the array elements
+    for(i = 0; i < num; i++) {
+        if (scanf("%d", &arr[i]) != 1) return 0;
+    }
+
+    // 4. Reverse the array using two pointers (in-place)
+    int start = 0;
+    int end = num - 1;
+    
+    while (start < end) {
+        // Swap elements at start and end indices
+        int temp = arr[start];
+        arr[start] = arr[end];
+        arr[end] = temp;
+        
+        // Move pointers closer to the center
+        start++;
+        end--;
+    }
+
+    // 5. Print the reversed array elements separated by spaces
+    for(i = 0; i < num; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+    
+    // 6. Free the dynamically allocated memory
+    free(arr);
+    
+    return 0;
+}
+
