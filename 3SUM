@@ -1,0 +1,74 @@
+#include <stdlib.h>
+
+// Comparison function for qsort
+int compare(const void* a, const void* b) {
+    return (*(int*)a - *(int*)b);
+}
+
+/**
+ * Return an array of arrays of size *returnSize*.
+ * The sizes of the arrays are returned as *returnColumnSizes* array.
+ * Note: Both returned array and *columnSizes* array must be mallocated.
+ */
+int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes) {
+    // Sort the array first
+    qsort(nums, numsSize, sizeof(int), compare);
+
+    int capacity = 1000; // Initial capacity allocation
+    int** result = (int**)malloc(capacity * sizeof(int*));
+    *returnColumnSizes = (int*)malloc(capacity * sizeof(int));
+    int count = 0;
+
+    for (int i = 0; i < numsSize - 2; i++) {
+        // If the current smallest number is greater than 0, 
+        // three positive numbers cannot sum up to 0.
+        if (nums[i] > 0) {
+            break;
+        }
+
+        // Skip duplicates for the first element
+        if (i > 0 && nums[i] == nums[i - 1]) {
+            continue;
+        }
+
+        int left = i + 1;
+        int right = numsSize - 1;
+
+        while (left < right) {
+            int sum = nums[i] + nums[left] + nums[right];
+
+            if (sum == 0) {
+                // Resize dynamic arrays if capacity is exceeded
+                if (count >= capacity) {
+                    capacity *= 2;
+                    result = (int**)realloc(result, capacity * sizeof(int*));
+                    *returnColumnSizes = (int*)realloc(*returnColumnSizes, capacity * sizeof(int));
+                }
+
+                // Allocate memory for the found triplet
+                result[count] = (int*)malloc(3 * sizeof(int));
+                result[count][0] = nums[i];
+                result[count][1] = nums[left];
+                result[count][2] = nums[right];
+                (*returnColumnSizes)[count] = 3;
+                count++;
+
+                // Skip duplicates for the second and third elements
+                while (left < right && nums[left] == nums[left + 1]) left++;
+                while (left < right && nums[right] == nums[right - 1]) right--;
+
+                left++;
+                right--;
+            } 
+            else if (sum < 0) {
+                left++; // Sum is too small, move left pointer to increase sum
+            } 
+            else {
+                right--; // Sum is too large, move right pointer to decrease sum
+            }
+        }
+    }
+
+    *returnSize = count;
+    return result;
+}
