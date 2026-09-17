@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+char* twoStrings(char* s1, char* s2) {
+    bool chars_in_s1[26] = {false};
+    
+    for (int i = 0; s1[i] != '\0'; i++) {
+        chars_in_s1[s1[i] - 'a'] = true;
+    }
+    
+    for (int i = 0; s2[i] != '\0'; i++) {
+        if (chars_in_s1[s2[i] - 'a']) {
+            return "YES";
+        }
+    }
+    
+    return "NO";
+} // Added the missing closing brace here
+
+int main() {
+    int q;
+    if (scanf("%d", &q) != 1) return 0;
+    
+    char* s1 = (char*)malloc(100005 * sizeof(char));
+    char* s2 = (char*)malloc(100005 * sizeof(char));
+    
+    while (q--) {
+        scanf("%s", s1);
+        scanf("%s", s2);
+        
+        char* result = twoStrings(s1, s2);
+        printf("%s\n", result);
+    }
+    
+    free(s1);
+    free(s2);
+    return 0;
+}
