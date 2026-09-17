@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+char* largestMerge(char* word1, char* word2) {
+    int len1 = strlen(word1);
+    int len2 = strlen(word2);
+    
+  
+    char* merge = (char*)malloc((len1 + len2 + 1) * sizeof(char));
+    int m_idx = 0;
+    
+    int i = 0, j = 0;
+    
+  
+    while (i < len1 && j < len2) {
+     
+        if (strcmp(&word1[i], &word2[j]) > 0) {
+            merge[m_idx++] = word1[i++];
+        } else {
+            merge[m_idx++] = word2[j++];
+        }
+    }
+    
+    
+    while (i < len1) {
+        merge[m_idx++] = word1[i++];
+    }
+    
+  
+    while (j < len2) {
+        merge[m_idx++] = word2[j++];
+    }
+    
+   
+    merge[m_idx] = '\0';
+    
+    return merge;
+}
