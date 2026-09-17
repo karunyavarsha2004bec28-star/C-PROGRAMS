@@ -1,0 +1,51 @@
+#include <string.h>
+
+int getMaxRepetitions(char* s1, int n1, char* s2, int n2) {
+    int len1 = strlen(s1);
+    int len2 = strlen(s2);
+    
+    int s1_count = 0;
+    int s2_count = 0;
+    int index2 = 0; 
+    
+    
+    int seen[101][2] = {0};
+    
+    while (s1_count < n1) {
+        s1_count++;
+        
+      
+        for (int i = 0; i < len1; i++) {
+            if (s1[i] == s2[index2]) {
+                index2++;
+                if (index2 == len2) {
+                    s2_count++;
+                    index2 = 0;
+                }
+            }
+        }
+        
+        
+        if (seen[index2][0] > 0) {
+            int prev_s1_count = seen[index2][0];
+            int prev_s2_count = seen[index2][1];
+            
+         
+            int cycle_s1 = s1_count - prev_s1_count;
+            int cycle_s2 = s2_count - prev_s2_count;
+            
+   
+            int remaining_s1 = n1 - s1_count;
+            int cycles = remaining_s1 / cycle_s1;
+            
+            s1_count += cycles * cycle_s1;
+            s2_count += cycles * cycle_s2;
+        } else {
+            
+            seen[index2][0] = s1_count;
+            seen[index2][1] = s2_count;
+        }
+    }
+    
+    return s2_count / n2;
+}
