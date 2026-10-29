@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+long long* countStableSubarrays(int* nums, int numsSize, int** queries, int queriesSize, int* queriesColSize, int* returnSize) {
+   
+    int* R = (int*)malloc(numsSize * sizeof(int));
+    
+    
+    int j = 0;
+    for (int i = 0; i < numsSize; i++) {
+        if (j < i) j = i;
+        while (j + 1 < numsSize && nums[j] <= nums[j + 1]) {
+            j++;
+        }
+        R[i] = j;
+    }
+
+    
+    long long* len = (long long*)malloc(numsSize * sizeof(long long));
+    for (int i = 0; i < numsSize; i++) {
+        len[i] = R[i] - i + 1;
+    }
+
+    
+    long long* pref = (long long*)malloc((numsSize + 1) * sizeof(long long));
+    pref[0] = 0;
+    for (int i = 0; i < numsSize; i++) {
+        pref[i + 1] = pref[i] + len[i];
+    }
+
+    long long* ans = (long long*)malloc(queriesSize * sizeof(long long));
+    *returnSize = queriesSize;
+
+    for (int q = 0; q < queriesSize; q++) {
+        int L = queries[q][0];
+        int targetR = queries[q][1];
+
+        
+        int low = L, high = targetR;
+        int mid_idx = L - 1; 
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (R[mid] <= targetR) {
+                mid_idx = mid;
+                low = mid + 1; 
+            } else {
+                high = mid - 1;
+            }
+        }
+
+        long long total = 0;
+       
+        if (mid_idx >= L) {
+            total += (pref[mid_idx + 1] - pref[L]);
+        }
+        
+        
+        if (mid_idx + 1 <= targetR) {
+            long long count = targetR - (mid_idx + 1) + 1;
+           
+            total += (count * (count + 1)) / 2;
+        }
+
+        ans[q] = total;
+    }
+
+    free(R);
+    free(len);
+    free(pref);
+
+    return ans;
+}
