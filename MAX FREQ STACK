@@ -1,0 +1,57 @@
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_VAL 10005
+#define MAX_OPS 20005
+
+typedef struct {
+    int freq[2 * MAX_VAL];        
+    int* freqStacks[MAX_OPS];     
+    int stackCapacities[MAX_OPS];
+    int stackSizes[MAX_OPS];      
+    int maxFreq;                  
+} FreqStack;
+
+FreqStack* freqStackCreate() {
+    FreqStack* obj = (FreqStack*)calloc(1, sizeof(FreqStack));
+    obj->maxFreq = 0;
+    return obj;
+}
+
+void freqStackPush(FreqStack* obj, int val) {
+    int idx = val + MAX_VAL;
+    obj->freq[idx]++;
+    int f = obj->freq[idx];
+    
+    if (f > obj->maxFreq) {
+        obj->maxFreq = f;
+    }
+    
+    if (obj->stackSizes[f] >= obj->stackCapacities[f]) {
+        obj->stackCapacities[f] = obj->stackCapacities[f] == 0 ? 4 : obj->stackCapacities[f] * 2;
+        obj->freqStacks[f] = (int*)realloc(obj->freqStacks[f], obj->stackCapacities[f] * sizeof(int));
+    }
+    
+    obj->freqStacks[f][obj->stackSizes[f]++] = val;
+}
+
+int freqStackPop(FreqStack* obj) {
+    int val = obj->freqStacks[obj->maxFreq][--obj->stackSizes[obj->maxFreq]];
+    int idx = val + MAX_VAL;
+    obj->freq[idx]--;
+    
+    if (obj->stackSizes[obj->maxFreq] == 0) {
+        obj->maxFreq--;
+    }
+    
+    return val;
+}
+
+void freqStackFree(FreqStack* obj) {
+    for (int i = 0; i < MAX_OPS; i++) {
+        if (obj->freqStacks[i]) {
+            free(obj->freqStacks[i]);
+        }
+    }
+    free(obj);
+}
