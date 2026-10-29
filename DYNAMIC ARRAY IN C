@@ -1,0 +1,71 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+/*
+ * This stores the total number of books in each shelf.
+ */
+int* total_number_of_books;
+
+/*
+ * This stores the total number of pages in each book of each shelf.
+ * The rows represent the shelves and the columns represent the books.
+ */
+int** total_number_of_pages;
+     int main()
+{
+    int total_number_of_shelves;
+    if (scanf("%d", &total_number_of_shelves) != 1) return 0;
+    
+    // Allocate tracking bounds matching the total number of shelves
+    total_number_of_books = calloc(total_number_of_shelves, sizeof(int));
+    total_number_of_pages = calloc(total_number_of_shelves, sizeof(int*));
+    
+    int total_number_of_queries;
+    if (scanf("%d", &total_number_of_queries) != 1) return 0;
+    
+    while (total_number_of_queries--) {
+        int type_of_query;
+        if (scanf("%d", &type_of_query) != 1) break;
+        
+        if (type_of_query == 1) {
+            int x, y;
+            scanf("%d %d", &x, &y);
+            
+            // 1. Fetch current book total on shelf 'x'
+            int current_book_count = total_number_of_books[x];
+            
+            // 2. Expand the shelf row column capacity to allocate space for the new book
+            total_number_of_pages[x] = realloc(total_number_of_pages[x], (current_book_count + 1) * sizeof(int));
+            
+            // 3. Write page count 'y' into the freshly allocated tail slot
+            total_number_of_pages[x][current_book_count] = y;
+            
+            // 4. Increment total books count for shelf 'x'
+            total_number_of_books[x]++;    
+        } else if (type_of_query == 2) {
+            int x, y;
+            scanf("%d %d", &x, &y);
+            printf("%d\n", *(*(total_number_of_pages + x) + y));
+        } else {
+            int x;
+            scanf("%d", &x);
+            printf("%d\n", *(total_number_of_books + x));
+        }
+    }
+
+    if (total_number_of_books) {
+        free(total_number_of_books);
+    }
+    
+    for (int i = 0; i < total_number_of_shelves; i++) {
+        if (*(total_number_of_pages + i)) {
+            free(*(total_number_of_pages + i));
+        }
+    }
+    
+    if (total_number_of_pages) {
+        free(total_number_of_pages);
+    }
+    
+    return 0;
+}
